@@ -5,7 +5,7 @@ const createStudent = async (req: Request, res: Response) => {
   try {
     const { user: userData } = req.body;
     const result = await userServices.createUserIntoDb(userData);
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: 'User created successfully',
       data: result,
@@ -40,9 +40,37 @@ const getSingleUser = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { user: userData } = req.body;
+    const { userId } = req.params;
+    const result = await userServices.updateUser(userData, userId);
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    await userServices.deleteUser(userId);
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully!',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const userController = {
   createStudent,
   getAllUsers,
   getSingleUser,
+  updateUser,
+  deleteUser,
 };
