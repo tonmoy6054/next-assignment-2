@@ -15,6 +15,20 @@ const createStudent = async (req: Request, res: Response) => {
   }
 };
 
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const result = await userServices.getAllUserFromDb();
+    res.status(200).json({
+      success: true,
+      message: 'user retrieved successfully',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const userController = {
   createStudent,
+  getAllUsers,
 };
