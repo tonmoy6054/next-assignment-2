@@ -7,7 +7,7 @@ const createStudent = async (req: Request, res: Response) => {
     const result = await userServices.createUserIntoDb(userData);
     res.status(200).json({
       success: true,
-      message: ' user created successfully',
+      message: 'User created successfully',
       data: result,
     });
   } catch (err) {
@@ -20,7 +20,20 @@ const getAllUsers = async (req: Request, res: Response) => {
     const result = await userServices.getAllUserFromDb();
     res.status(200).json({
       success: true,
-      message: 'user retrieved successfully',
+      message: 'User fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await userServices.getSingleUserFromDb(userId);
+    res.status(200).json({
+      success: true,
+      message: 'User fetched successfully!',
       data: result,
     });
   } catch (err) {
@@ -31,4 +44,5 @@ const getAllUsers = async (req: Request, res: Response) => {
 export const userController = {
   createStudent,
   getAllUsers,
+  getSingleUser,
 };
