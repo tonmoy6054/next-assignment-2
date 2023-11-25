@@ -1,5 +1,3 @@
-import { Schema, model, connect } from 'mongoose';
-
 export type Address = {
   street: string;
   city: string;
@@ -13,7 +11,7 @@ export type Order = {
 };
 
 export type IUser = {
-  userId: string;
+  userId: number;
   username: string;
   password: string;
   fullName: {
