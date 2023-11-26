@@ -3,7 +3,7 @@ import { userServices } from './user.service';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
     const result = await userServices.createUserIntoDb(userData);
     res.status(201).json({
       success: true,
@@ -42,9 +42,9 @@ const getSingleUser = async (req: Request, res: Response) => {
 };
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
     const { userId } = req.params;
-    const result = await userServices.updateUser(userData, userId);
+    const result = await userServices.updateUser(userId, userData);
     res.status(200).json({
       success: true,
       message: 'User updated successfully!',
