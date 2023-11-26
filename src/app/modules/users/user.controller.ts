@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import joiValidationSchema from './user.validation';
+import { User } from '../user.model';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
-    // creating schema validation using joi
-
     const userData = req.body;
     const { error, value } = joiValidationSchema.validate(userData);
     const result = await userServices.createUserIntoDb(userData);
@@ -84,10 +83,41 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+const addNewProductInOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const { productName, price, quantity } = req.body;
+    const newOrder = {
+      productName,
+      price,
+      quantity,
+    };
+    if (user.orders && user.orders.length > 0) {
+      user.orders.push(newOrder);
+    } else {
+      user.orders = [newOrder];
+    }
+    await user.save();
+    res.json({
+      success: true,
+      message: 'Order created successfully!',
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'server error' });
+  }
+};
+
 export const userController = {
   createStudent,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  addNewProductInOrder,
 };

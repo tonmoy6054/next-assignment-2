@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { Address, IUser, Order } from './users/user.interface';
-import validator from 'validator';
 
 const AddressSchema = new Schema<Address>({
   street: { type: String, required: true },
@@ -23,19 +22,12 @@ const userSchema = new Schema<IUser>({
     lastName: {
       type: String,
       required: true,
-      validate: {
-        validator: (value: string) => validator.isAlpha(value),
-        message: '{VALUE} is not valid',
-      },
     },
   },
   age: { type: Number },
   email: {
     type: String,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: '{VALUE} is not a valid email type}',
-    },
+
     isActive: {
       type: String,
       enum: { values: ['active', 'inactive'] },
