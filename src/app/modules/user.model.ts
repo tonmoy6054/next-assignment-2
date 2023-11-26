@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { Address, IUser, Order } from './users/user.interface';
 import validator from 'validator';
+
 const AddressSchema = new Schema<Address>({
   street: { type: String, required: true },
   city: { type: String, required: true },

@@ -1,17 +1,34 @@
 import { Request, Response } from 'express';
 import { userServices } from './user.service';
+import joiValidationSchema from './user.validation';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
+    // creating schema validation using joi
+
     const userData = req.body;
+    const { error, value } = joiValidationSchema.validate(userData);
     const result = await userServices.createUserIntoDb(userData);
+    console.log({ error }, { value });
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'something went wrong',
+        error: error,
+      });
+    }
+
     res.status(201).json({
       success: true,
       message: 'User created successfully',
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: err,
+    });
   }
 };
 
