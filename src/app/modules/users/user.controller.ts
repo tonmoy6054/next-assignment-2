@@ -56,7 +56,8 @@ const getAllUsers = async (req: Request, res: Response) => {
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const result = await userServices.getSingleUserFromDb(userId);
+    const numericUserId = parseInt(userId, 10);
+    const result = await userServices.getSingleUserFromDb(numericUserId);
     res.status(200).json({
       success: true,
       message: 'User fetched successfully!',
@@ -70,7 +71,8 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
     const { userId } = req.params;
-    const result = await userServices.updateUser(userId, userData);
+    const numericUserId = parseInt(userId, 10);
+    const result = await userServices.updateUser(numericUserId, userData);
     res.status(200).json({
       success: true,
       message: 'User updated successfully!',
@@ -83,7 +85,7 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    await userServices.deleteUser(userId);
+    await userServices.deleteUser(parseInt(userId, 10));
     res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
